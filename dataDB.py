@@ -17,17 +17,19 @@ def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
             print(err)
         db.close()
 
-    cur = db.cursor()
-    table = "use (%s)"
-    cur.execute('use avitoDB')
-
     #print('sucessfull')
-    return cur, db
+    return db
 
 #---------------------------------------------------------------------
 #def connetcDB():
 #    pass
 #--------------------------------------------------------------------
+def cursorDB(db):
+    cur = db.cursor()
+    cur.execute('use avitoDB')
+    return cur, db
+#-------------------------------------------------------------------
+
 def insertTable(arg1, arg2, title, price, metro, url):
     #print(type(arg1))
     try:
@@ -35,7 +37,7 @@ def insertTable(arg1, arg2, title, price, metro, url):
         args = (title, price, metro, url)
         arg1.execute(hello, args)
         arg2.commit()
-        print(args)
+        #print(args)
     except mysql.connector.Error as err:
         print(err)
         arg2.close()
@@ -49,7 +51,8 @@ def closeDB(arg1, arg2):
     #print('close')
 #-----------------------------------------------------------------------
 if __name__ == '__main__':
-    m = connectDB(data='avitoDB')
+    db = connectDB(data='avitoDB')
+    m = cursorDB(db)
     data = {
         'title' : '1',
         'price' : '2',
@@ -57,6 +60,6 @@ if __name__ == '__main__':
         'url'   : '4'
 
     }
-    for i in range(0, 100):
+    for i in range(0, 10):
         insertTable(*m, **data)
     closeDB(*m)
