@@ -2,6 +2,13 @@ import mysql.connector
 from mysql.connector import errorcode
 #----------------------------------------------------------------------
 def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
+    """
+    :param data: название базы данных
+    :param host: по умолчанию локальная машина 'localhost'
+    :param user: имя пользователя по умолчанию 'root'
+    :param passwd: пароль для базы данных
+    :return: cur, bd
+    """
     try:
         db = mysql.connector.connect(host=host,
                                      user=user,
@@ -17,42 +24,51 @@ def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
             print(err)
         db.close()
 
-    #print('sucessfull')
-    return db
-
-#---------------------------------------------------------------------
-#def connetcDB():
-#    pass
-#--------------------------------------------------------------------
-def cursorDB(db):
     cur = db.cursor()
-    cur.execute('use avitoDB')
-    return cur, db
-#-------------------------------------------------------------------
+    format = "use " + data
+    cur.execute(format)
 
-def insertTable(arg1, arg2, title, price, metro, url):
-    #print(type(arg1))
+    #print('sucessfull')
+    return cur, db
+#---------------------------------------------------------------------
+def insertTable(cur, db, title, price, metro, url):
+    """
+    Запись данных в таблицу avitoData.
+    :param cur:  курсор
+    :param db:  база данных
+    :param title: заголовок
+    :param price: цена
+    :param metro: станция метро
+    :param url: url страницы
+    """
     try:
         hello = "insert into avitoData(title, price, metro, url)  values(%s, %s, %s, %s)"
         args = (title, price, metro, url)
-        arg1.execute(hello, args)
-        arg2.commit()
+        cur.execute(hello, args)
+        db.commit()
         #print(args)
     except mysql.connector.Error as err:
         print(err)
-        arg2.close()
+        cur.close
+        db.close()
 
     #print('execute')
+#---------------------------------------------------------------------
+def sortedTable():
+    pass
+
 
 #----------------------------------------------------------------------
-def closeDB(arg1, arg2):
-    arg1.close()
-    arg2.close()
+def closeDB(cur, db):
+    """
+    Закрытие базы данных.
+    """
+    cur.close()
+    db.close()
     #print('close')
 #-----------------------------------------------------------------------
 if __name__ == '__main__':
     db = connectDB(data='avitoDB')
-    m = cursorDB(db)
     data = {
         'title' : '1',
         'price' : '2',
@@ -61,5 +77,5 @@ if __name__ == '__main__':
 
     }
     for i in range(0, 10):
-        insertTable(*m, **data)
-    closeDB(*m)
+        insertTable(*db, **data)
+    closeDB(*db)

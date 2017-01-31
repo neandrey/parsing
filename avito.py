@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import csv
 import dataDB
 
-#m = dataDB.connectDB(data='avitoDB')
 #---------------------------------------
 def get_html(url):
     r = requests.get(url)
@@ -17,11 +16,6 @@ def get_totoal_pages(html):
 
     return int(total_pages)
 #-----------------------------------------
-def write_table(data):
-    m = dataDB.connectDB(data='avitoDB')
-    dataDB.insertTable(*m, **data)
-    dataDB.closeDB(*m)
-#------------------------------------------
 def write_csv(data):
     with open('avito.csv', 'a') as f:
         writer = csv.writer(f)
@@ -31,7 +25,7 @@ def write_csv(data):
                          data['metro']
                          ))
 #------------------------------------------
-def get_page_date(html, arg1, arg2):
+def get_page_date(html, cur, db):
     soup = BeautifulSoup(html, 'lxml')
     ads = soup.find('div', class_='catalog-list').find_all('div', class_='item_table')
     for ad in ads:
@@ -66,15 +60,12 @@ def get_page_date(html, arg1, arg2):
                     }
 
             #write_csv(data)
-            #write_table(data)
-            dataDB.insertTable(arg1, arg2 ,**data)
+            dataDB.insertTable(cur, db ,**data)
 
         else:
             continue
-
-  #  dataDB.closeDB(*m)
 #-----------------------------------------------------------------
-def main(db):
+def main(cur, db):
     url = 'https://www.avito.ru/ekaterinburg/telefony?p=1&q=htc'
     base_url = 'https://www.avito.ru/ekaterinburg/telefony?'
     page_part = 'p='
@@ -83,11 +74,11 @@ def main(db):
     total_pages = get_totoal_pages(get_html(url))
 
     for i in range(1, total_pages):
-        m = dataDB.cursorDB(db)
         url_gen = base_url + page_part + str(i) + query_part
         html = get_html(url_gen)
-        get_page_date(html, *m)
+        get_page_date(html, cur, db)
 #----------------------------------------------------------------
 if __name__ == '__main__':
     m = dataDB.connectDB(data='avitoDB')
-    main(m)
+    main(*m)
+    dataDB.closeDB(*m)
