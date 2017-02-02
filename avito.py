@@ -43,11 +43,20 @@ def get_page_date(html, cur, db):
                 url = ''
             try:
                 price = ad.find('div', class_='about').text.strip()
-                #if price.find('div', class_ = 'delivery'):
-                #price.strip()
+                if price == '':
+                    price = None
+                else:
+                    price = price.split(' ')
+                    #print(price)
+                    price = price[:-1]
+                    price = int(''.join(price))
+                    #print(price)
 
-            except:
-                price = ''
+            except price:
+                price = None
+
+
+
             try:
                 metro = ad.find('div', class_='data').find_all('p')[-1].text.strip()
             except:
