@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
+import bs4
 import csv
 import dataDB
 
@@ -8,8 +8,8 @@ def get_html(url):
     r = requests.get(url)
     return r.text
 #----------------------------------------
-def get_totoal_pages(html):
-    soup = BeautifulSoup(html, 'lxml')
+def get_total_pages(html):
+    soup = bs4.BeautifulSoup(html, 'lxml')
 
     pages = soup.find('div', class_="pagination-pages").find_all('a', class_="pagination-page")[-1].get('href')
     total_pages = pages.split('=')[1].split("&")[0]
@@ -26,7 +26,7 @@ def write_csv(data):
                          ))
 #------------------------------------------
 def get_page_date(html, cur, db):
-    soup = BeautifulSoup(html, 'lxml')
+    soup = bs4.BeautifulSoup(html, 'lxml')
     ads = soup.find('div', class_='catalog-list').find_all('div', class_='item_table')
     for ad in ads:
         # title url, price, metro
@@ -55,8 +55,6 @@ def get_page_date(html, cur, db):
             except price:
                 price = None
 
-
-
             try:
                 metro = ad.find('div', class_='data').find_all('p')[-1].text.strip()
             except:
@@ -80,7 +78,7 @@ def main(cur, db):
     page_part = 'p='
     query_part = '&q=htc'
 
-    total_pages = get_totoal_pages(get_html(url))
+    total_pages = get_total_pages(get_html(url))
 
     for i in range(1, total_pages):
         url_gen = base_url + page_part + str(i) + query_part

@@ -1,5 +1,4 @@
-import mysql.connector
-from mysql.connector import errorcode
+import MySQLdb
 #----------------------------------------------------------------------
 def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
     """
@@ -10,25 +9,25 @@ def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
     :return: cur, bd
     """
     try:
-        db = mysql.connector.connect(host=host,
-                                     user=user,
-                                     passwd=passwd,
-                                     database=data
-                                    )
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
+        db = MySQLdb.connect(host=host,
+                            user=user,
+                            passwd=passwd,
+                            db=data
+                            )
+    except MySQLdb.Error as err:
+        #if err == MySQLdb.ER_ACCESS_DENIED_ERROR: #errorcode.ER_ACCESS_DENIED_ERROR:
+        #    print("Something is wrong with your user or password")
+        #if err == MySQLdb.OperationalError():
+        #    print("Unknow database %s", data)
+        #else:
+        print(err)
         db.close()
 
     cur = db.cursor()
     format = "use " + data
     cur.execute(format)
 
-    #print('sucessfull')
+    print('sucessfull')
     return cur, db
 #---------------------------------------------------------------------
 def insertTable(cur, db, title, price, metro, url):
@@ -46,18 +45,14 @@ def insertTable(cur, db, title, price, metro, url):
         args = (title, price, metro, url)
         cur.execute(hello, args)
         db.commit()
-        #print(args)
-    except mysql.connector.Error as err:
+        print(args)
+    except MySQLdb.Error as err:
         print(err)
-        cur.close
+        cur.close()
         db.close()
-
-    #print('execute')
 #---------------------------------------------------------------------
 def sortedTable():
     pass
-
-
 #----------------------------------------------------------------------
 def closeDB(cur, db):
     """
@@ -74,7 +69,6 @@ if __name__ == '__main__':
         'price' : '2',
         'metro' : '3',
         'url'   : '4'
-
     }
     for i in range(0, 10):
         insertTable(*db, **data)
