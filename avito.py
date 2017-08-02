@@ -49,7 +49,11 @@ def get_page_date(html, cur, db):
                     price = price.split(' ')
                     #print(price)
                     price = price[:-1]
-                    price = int(''.join(price))
+                    price = (''.join(price))
+                    if price == price.isdigit():
+                        price = int(price)
+                    else:
+                        price = None
                     #print(price)
 
             except price:
