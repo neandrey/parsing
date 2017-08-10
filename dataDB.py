@@ -9,7 +9,8 @@ def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
     :return: cur, bd
     """
     try:
-        db = MySQLdb.connect(host=host,
+        db = MySQLdb.connect(
+                            host=host,
                             user=user,
                             passwd=passwd,
                             db=data
@@ -27,7 +28,7 @@ def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
     format = "use " + data
     cur.execute(format)
 
-    print('sucessfull')
+    #print('sucessfull')
     return cur, db
 #---------------------------------------------------------------------
 def insertTable(cur, db, title, price, metro, url):
@@ -42,7 +43,7 @@ def insertTable(cur, db, title, price, metro, url):
     """
     try:
         hello = "insert into avitoData(title, price, metro, url)  values(%s, %s, %s, %s)"
-        args = (title, price, metro, url)
+        args = title, price, metro, url
         cur.execute(hello, args)
         db.commit()
         print(args)
