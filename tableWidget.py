@@ -1,8 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QTableWidgetItem, QTableWidget, QApplication
 
-data = {'col1': ['1', '2', '3'], 'col2': ['4', '5', '6'], 'col3': ['7', '8', '9']}
-
 
 class MyTable(QTableWidget):
     def __init__(self, data, *args):
@@ -28,12 +26,12 @@ class MyTable(QTableWidget):
 
 
 #--------------------------------------------------------------
-def main(args):
-    app = QApplication(args)
+if __name__ == "__main__":
+
+    data = {'col1': ['1', '2', '3'], 'col2': ['4', '5', '6'], 'col3': ['7', '8', '9']}
+    app = QApplication(sys.argv)
     table = MyTable(data, 5, 3)
     table.show()
     sys.exit(app.exec_())
 
 
-if __name__ == "__main__":
-    main(sys.argv)

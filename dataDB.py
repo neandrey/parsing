@@ -1,6 +1,6 @@
 import MySQLdb
 #----------------------------------------------------------------------
-def connectDB(data, host='localhost', user = 'root', passwd = 'Serta45!@' ):
+def connectDB(data, host = 'localhost', user = 'root', passwd = 'Serta45!@'):
     """
     :param data: название базы данных
     :param host: по умолчанию локальная машина 'localhost'
@@ -49,11 +49,21 @@ def insertTable(cur, db, title, price, metro, url):
         print(args)
     except MySQLdb.Error as err:
         print(err)
-        cur.close()
-        db.close()
+        closeDB(cur, db)
 #---------------------------------------------------------------------
-def sortedTable():
-    pass
+def visualGUITable(cur, db):
+    """
+    Извлечение данных из базы и вывод их через GUI
+    :param cur: 
+    :param db: 
+    :return: data
+    """
+    try:
+        hello = "select "
+
+    except MySQLdb.Error as err:
+        print(err)
+        closeDB(cur, db)
 #----------------------------------------------------------------------
 def closeDB(cur, db):
     """

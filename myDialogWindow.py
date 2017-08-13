@@ -11,7 +11,7 @@ class MyDialogWindow():
 
     def exitDialog(self):
         """
-        Подтверждение выхода из приложения.
+        Подтверждение выхода из приложения
         """
         reply = QMessageBox.question(self,
                                      'Message',

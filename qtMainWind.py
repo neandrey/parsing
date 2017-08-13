@@ -1,8 +1,6 @@
 import sys
-
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QLayout, QWidget,QFrame, QMainWindow, QApplication, QAction, qApp, QPushButton, QHBoxLayout
-
+from PyQt5.QtWidgets import QMainWindow, QApplication
 from myDialogWindow import MyDialogWindow
 from menyQtMainWindom import MenyQtMainWindow
 from tableWidget import MyTable
@@ -25,8 +23,7 @@ class Example(QMainWindow):
         #MenyQtMainWindow.Open(self)
         MenyQtMainWindow.Exit(self)
 
-        #ex = Ex()
-        #self.setCentralWidget(ex)
+
         #ex = MyTable(data, 5, 3)
         #self.setCentralWidget(ex)
 
@@ -42,10 +39,6 @@ class Example(QMainWindow):
     @pyqtSlot(name='Open')
     def openFileDialog(self):
         MyDialogWindow.openDialog(self)
-
-
-
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
