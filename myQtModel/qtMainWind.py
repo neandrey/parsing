@@ -1,9 +1,10 @@
 import sys
+
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QApplication
-from myDialogWindow import MyDialogWindow
-from menyQtMainWindom import MenyQtMainWindow
-from tableWidget import MyTable
+
+from myQtModel.menyQtMainWindom import MenyQtMainWindow
+from myQtModel.myDialogWindow import MyDialogWindow
 
 
 class Example(QMainWindow):

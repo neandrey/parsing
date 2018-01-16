@@ -12,7 +12,7 @@ class MenyQtMainWindow():
 
 
     def Exit(self):
-        exitAction = QAction(QIcon('exit.png'), '&Exit', self)
+        exitAction = QAction(QIcon('resurse/exit.png'), '&Exit', self)
         exitAction.setShortcut('Ctrl+Q')
         exitAction.setStatusTip('Exit application')
         exitAction.triggered.connect(self.exitWindow)
@@ -28,7 +28,7 @@ class MenyQtMainWindow():
 
 
     def Open(self):
-        openFile = QAction(QIcon('open.png'), 'Open', self)
+        openFile = QAction(QIcon('resurse/open.png'), 'Open', self)
         openFile.setShortcut('Ctrl+O')
         openFile.setStatusTip('Open new File')
         openFile.triggered.connect(self.openFileDialog)

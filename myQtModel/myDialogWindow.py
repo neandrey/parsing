@@ -19,7 +19,7 @@ class MyDialogWindow():
                                      QMessageBox.Yes |  QMessageBox.No, QMessageBox.No)
 
         if reply == QMessageBox.Yes:
-            qApp.quit()
+            self.close()
         #else:
 
     def openDialog(self):
